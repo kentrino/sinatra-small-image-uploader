@@ -7,3 +7,8 @@ html
     form method="post" action="./" enctype="multipart/form-data"
       input type="file" name="file" size="30"
       input type="submit" value="send"
+    hr
+    div.list
+      - @list.each do |elem|
+        span #{elem[:file]}
+        br
