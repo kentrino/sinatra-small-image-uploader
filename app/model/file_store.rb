@@ -1,5 +1,3 @@
-require 'pry'
-
 class FileStore
   UPLOAD_PATH = "#{Application::ROOT}/upload/"
 

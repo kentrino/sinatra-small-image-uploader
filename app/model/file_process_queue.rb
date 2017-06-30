@@ -1,5 +1,3 @@
-require 'pry'
-
 class FileProcessQueue
   REDIS_KEY_FILELIST_TO_PROCESS = 'filelist_to_process'
   NOT_PROCESSED = 0
@@ -10,7 +8,7 @@ class FileProcessQueue
     end
 
     def get()
-      # ZRANGEBYSCOREがbetter
+      # ZRANGEBYSCORE is better?
       filelist = RedisConnection.conn.hkeys(REDIS_KEY_FILELIST_TO_PROCESS) || []
       filelist.map! do |file|
         { file: file }
