@@ -1,1 +1,3 @@
 /upload
+/redis-data/*
+/redis-data/.gitkeep
