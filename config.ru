@@ -5,6 +5,6 @@ Dir.glob(['./app/controller/*.rb', './app/model/*.rb', './lib/*.rb']).each do |f
   require file
 end
 
-map('/image_upload') do
+map('/image_uploader') do
   run ImageUploader
 end

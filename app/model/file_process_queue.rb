@@ -1,11 +1,11 @@
-class ProcessQueue
+class FileProcessQueue
   REDIS_KEY_FILELIST = 'filelist'
   SEPARATOR = ':'
 
   class << self
     def add(filepath)
       not_processed = '0'
-
+      # maybe hash is better
       RedisConnection.conn.lpush(REDIS_KEY_FILELIST, filepath + SEPARATOR + not_processed)
     end
 

@@ -1,20 +1,16 @@
 class ImageUploader < Application
-  UPLOAD_PATH = "#{Application::ROOT}/upload/"
 
   post '/' do
     tempfile = params[:file][:tempfile]
-    extension = File.extname(params[:file][:filename])
-    filename = (Time.now.to_f * 1000).to_i.to_s + extension
-
-    File.open("#{UPLOAD_PATH}/#{filename}", 'wb') do |f|
-      f.write(tempfile.read)
-    end
-    ProcessQueue.add(filename)
+    filename = params[:file][:filename]
+    UploadFileHander.save(tempfile, filename)
+    FileProcessQueue.add(filename)
+    redirect '/image_uploader/', 303
   end
 
   get '/' do
     #slim :image_uploader
-    @list = ProcessQueue.get()
+    @list = FileProcessQueue.get()
     slim :image_uploader
   end
 end
