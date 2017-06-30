@@ -1,19 +1,19 @@
+require 'pry'
+
 class FileProcessQueue
-  REDIS_KEY_FILELIST = 'filelist'
-  SEPARATOR = ':'
+  REDIS_KEY_FILELIST_TO_PROCESS = 'filelist_to_process'
+  NOT_PROCESSED = 0
 
   class << self
     def add(filepath)
-      not_processed = '0'
-      # maybe hash is better
-      RedisConnection.conn.lpush(REDIS_KEY_FILELIST, filepath + SEPARATOR + not_processed)
+      RedisConnection.conn.hset(REDIS_KEY_FILELIST_TO_PROCESS, filepath, NOT_PROCESSED)
     end
 
     def get()
-      filelist = RedisConnection.conn.lrange(REDIS_KEY_FILELIST, 0, -1) || []
-      filelist.map! do |e|
-        elem = e.split(SEPARATOR)
-        { file: elem[0], processed: elem[1] }
+      # ZRANGEBYSCOREがbetter
+      filelist = RedisConnection.conn.hkeys(REDIS_KEY_FILELIST_TO_PROCESS) || []
+      filelist.map! do |file|
+        { file: file }
       end
     end
   end

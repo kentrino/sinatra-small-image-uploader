@@ -2,8 +2,8 @@ class ImageUploader < Application
 
   post '/' do
     tempfile = params[:file][:tempfile]
-    filename = params[:file][:filename]
-    UploadFileHander.save(tempfile, filename)
+    default_filename = params[:file][:filename]
+    filename = UploadFileHander.save(tempfile, default_filename)
     FileProcessQueue.add(filename)
     redirect '/image_uploader/', 303
   end

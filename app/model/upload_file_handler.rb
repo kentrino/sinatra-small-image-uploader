@@ -1,3 +1,5 @@
+require 'pry'
+
 class UploadFileHander
   UPLOAD_PATH = "#{Application::ROOT}/upload/"
   class << self
@@ -8,6 +10,7 @@ class UploadFileHander
       File.open(path, 'wb') do |f|
         f.write(file.read)
       end
+      filename
     end
   end
 end
